@@ -1,7 +1,9 @@
 #ifndef NODE_H
 #define NODE_H
 
-#define STR_LEN 20
+/*
+* Some color codes for fancy output. I put it here because "Node.h" gets included in all source files, so I can use them everywhere.
+*/
 #define KNRM  "\x1B[0m"
 #define KRED  "\x1B[31m"
 #define KGRN  "\x1B[32m"
@@ -12,6 +14,9 @@
 #define KWHT  "\x1B[37m"
 #define RESET "\033[0m"
 
+/*
+* Two way linked chain of structs. Each struct contains the data for 5 profiles, which will be extruded to a volume in CAD.
+*/
 typedef struct naca{
 	char type[20];
 	double Lax;
@@ -25,7 +30,7 @@ typedef struct naca{
 	double Py[31*5];
 	double SPx[31*5];
 	double SPy[31*5];
-	double r;
+	double z;
 	struct naca *next;
 	struct naca *prev;
 }Naca;

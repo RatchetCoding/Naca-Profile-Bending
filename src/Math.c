@@ -1,20 +1,25 @@
 #include "Math.h"
 #include <math.h>
 #define I(i,k) ((i)*26+(k))
+
+/*
+* I guess this is where the magic happens. It's just real simple geometry. We calculate a skeleton line in "solve()" and bend the profile accordingly in "calculate_Profile".
+*/
 void loesen(Naca* iterator){
 
 		while(iterator!=NULL){
 
 			for(int i=0;i<=4;i++){
 
+				/* 
+				* For the curious: In the given data we have two angles (B12 and B2) and a distance (Lax). We are looking for an arc, which has those angles at the given distance.
+				* At first the radius of a circle is calculated, which would have those two angles at the given distance. Then it's position is determined, thus the beginning
+				* of the skeleton line is at the point (0;0);
+				*/
 				iterator->radius[i]=(iterator->Lax + iterator->deltaLax * i*0.25)/(sin_d((iterator->B12[i])+(iterator->B2[i]))-sin_d(iterator->B2[i]));
-				// printf("%lf ",iterator->B12[i]);
-				// printf("%lf ",iterator->B2[i]);
-				// printf("%lf ",iterator->radius[i]);
 				iterator->Mx[i]=sin_d((iterator->B12[i])+(iterator->B2[i])) * (iterator->radius[i]);
 				iterator->My[i]= -cos_d((iterator->B12[i])+(iterator->B2[i]))*(iterator->radius[i]);
-				//printf("%lf ",iterator->Mx[i]);
-				// printf("%lf\n",iterator->My[i]);
+				
 
 			}
 			iterator = iterator->next;
@@ -29,6 +34,10 @@ void calculate_Profile(Naca* iterator, double* Profile_x,double* Profile_y){
 	while(iterator!= NULL){
 	for(int i=0;i<=4;i++){
 			for(int k=0;k<=30;k++){
+
+				/* 
+				* Again for the curious: Kinda hard to explain, will maybe add someday.
+				*/
 				alpha=asin(((iterator->Mx[i])-(Profile_x[k] * (iterator->Lax + iterator->deltaLax * i*0.25)))/iterator->radius[i]);
 			
 				iterator->Px[I(i,k)]=iterator->Mx[i] - ((iterator->radius[i])+(Profile_y[k] * (iterator->Lax + iterator->deltaLax * i*0.25)))*sin(alpha);

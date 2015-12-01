@@ -9,9 +9,7 @@ Naca* firstNode;
 void save(Naca* firstNode);
 Naca* load();
 char buff[0x100];
-int i;
 float  j;
-int k;
 int l;
 
 

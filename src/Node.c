@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*
+* Just some basic operations for the creation and insertion of nodes to the chain.
+* TODO: Add a function to delete nodes and the whole chain
+*/
+
 Naca* newNode(){
 
 	Naca* newNode = malloc(sizeof(Naca));
