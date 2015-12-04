@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "File_IO.h"
 #include "Node.h"
-#define I(i,k) ((i)*26+(k))
+#define I(i,k) ((i)*31+(k))
 
 /*
 * This function saves the coordinates into ".dat" files, seperated by commas.
@@ -19,33 +19,34 @@ void save(Naca* firstNode){
 	
 	while(iterator != NULL){
 
-		/* 
-		*We use "snprintf" to create the filename. We want one file for every group of 5 profiles. 
-		*/
-		snprintf(buff,sizeof(buff),"./Profiles/Profile%d_%s.dat",l,iterator->type);
-		FILE* file = fopen(buff,"w");
+		
 		for(int i=0;i<=4;i++){
-			for(int k=0;k<=30;k++){
 
+		snprintf(buff,sizeof(buff),"./Profiles/Profile%d.%d_%s.dat",l,i,iterator->type);
+		FILE* file = fopen(buff,"w");
+			for(int k=1;k<=25;k+=4){
 				/*
 				* We print the coordinatepoints to the file. At first the one above the x-axis, then the one below
 				*/
-				fprintf(file,"%lf;%lf;%lf\n",iterator->Px[I(i,k)],iterator->Py[I(i,k)],(iterator->z)*j);
-				fprintf(file,"%lf;%lf;%lf\n",iterator->SPx[I(i,k)],iterator->SPy[I(i,k)],(iterator->z)*j);
+				fprintf(file,"%lf\t%lf\t%lf\n",iterator->Px[I(i,k)],iterator->Py[I(i,k)],(iterator->z)*j);			
+			}
+			for(int k=25;k>=1;k-=4){
+
+				fprintf(file,"%lf\t%lf\t%lf\n",iterator->SPx[I(i,k)],iterator->SPy[I(i,k)],(iterator->z)*j);
 			}
 
 			/*
 			* We want the profiles to be spread linear over the distance z. The factor "j" takes care of that by adding 0.25 after every run through the loop.
 			*/
 			j+=0.25;
+			fclose(file);
 		}
 
 		//Going to the next node in the chain.
 		iterator = iterator->next;
 
 		// "l" counts how many profiles we have, so we can name the files accordingly
-		l++;
-		fclose(file);
+		l++;	
 	}
 	
 

@@ -41,6 +41,12 @@ int main()
 	printf(KGRN "New Profile determined!\n"RESET);
 
 	/*
+	* Calculating the center of mass
+	*/
+	printf("Determing the center of mass..\n");
+	com(firstProfile);
+	printf(KGRN "Successfully acquired center of mass!\n"RESET);
+	/*
 	* Saving the freshly acquired coordinates
 	*/
 	printf("Saving...\n");

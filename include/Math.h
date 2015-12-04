@@ -13,5 +13,6 @@
 
 void loesen(Naca* iterator);
 void calculate_Profile(Naca* iterator, double* Profile_x,double* Profile_y);
+void com(Naca* iterator);
 
 #endif

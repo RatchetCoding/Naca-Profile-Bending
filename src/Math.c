@@ -1,6 +1,6 @@
 #include "Math.h"
 #include <math.h>
-#define I(i,k) ((i)*26+(k))
+#define I(i,k) ((i)*31+(k))
 
 /*
 * I guess this is where the magic happens. It's just real simple geometry. We calculate a skeleton line in "solve()" and bend the profile accordingly in "calculate_Profile".
@@ -48,8 +48,49 @@ void calculate_Profile(Naca* iterator, double* Profile_x,double* Profile_y){
 
 				iterator->SPy[I(i,k)]=iterator->My[i] + ((iterator->radius[i])-(Profile_y[k] * (iterator->Lax + iterator->deltaLax * i*0.25)))*cos(alpha);
 				
-				}
+			}
 		}
 		iterator=iterator->next;
+	}
 }
+
+void com(Naca* iterator){
+
+	/*
+	* First we calculate the area of our profile, we need it later for the center of mass calculation
+	*/
+
+	for(int i=0;i<=4;i++){
+		iterator->area[i]=0;
+
+			for(int k=0;k<=30;k++){
+				
+				iterator->area[i]+= iterator->Px[I(i,k)] * iterator->Py[I(i,k+1)] - iterator->Px[I(i,k+1)] * iterator->Py[I(i,k)];
+
+		}
+		iterator->area[i] *= (1/2);
+	}
+	for(int i=0;i<=4;i++){
+		iterator->comx[i]=0;
+
+			for(int k=0;k<=30;k++){
+				
+				iterator->comx[i]+= (iterator->Px[I(i,k)] + iterator->Px[I(i,k+1)]) * (iterator->Px[I(i,k)] * iterator->Py[I(i,k+1)] - iterator->Px[I(i,k+1)] * iterator->Py[I(i,k)]);
+ 
+		}
+		iterator->comx[i] *= (1/6)*(1/iterator->area[i]);
+	}
+	for(int i=0;i<=4;i++){
+		iterator->comy[i]=0;
+
+			for(int k=0;k<=30;k++){
+				
+				iterator->comy[i]+= (iterator->Py[I(i,k)] + iterator->Py[I(i,k+1)]) * (iterator->Px[I(i,k)] * iterator->Py[I(i,k+1)] - iterator->Px[I(i,k+1)] * iterator->Py[I(i,k)]);
+ 
+		}
+		iterator->comy[i] *= (1/6)*(1/iterator->area[i]);
+	}
+
+
+
 }

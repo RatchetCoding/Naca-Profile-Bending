@@ -31,6 +31,9 @@ typedef struct naca{
 	double SPx[31*5];
 	double SPy[31*5];
 	double z;
+	double area[5];
+	double comx[5];
+	double comy[5];
 	struct naca *next;
 	struct naca *prev;
 }Naca;
