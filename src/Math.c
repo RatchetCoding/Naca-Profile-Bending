@@ -1,6 +1,7 @@
 #include "Math.h"
 #include <math.h>
-#define I(i,k) ((i)*31+(k))
+#define I(i,k) ((i)*61+(k))
+#define Is(i,k) ((i+1)*61-(k))
 
 /*
 * I guess this is where the magic happens. It's just real simple geometry. We calculate a skeleton line in "solve()" and bend the profile accordingly in "calculate_Profile".
@@ -44,9 +45,9 @@ void calculate_Profile(Naca* iterator, double* Profile_x,double* Profile_y){
 
 				iterator->Py[I(i,k)]=iterator->My[i] + ((iterator->radius[i])+(Profile_y[k] * (iterator->Lax + iterator->deltaLax * i*0.25)))*cos(alpha);
 
-				iterator->SPx[I(i,k)]=iterator->Mx[i] - ((iterator->radius[i])-(Profile_y[k] * (iterator->Lax + iterator->deltaLax * i*0.25)))*sin(alpha);
+				iterator->Px[Is(i,k)]=iterator->Mx[i] - ((iterator->radius[i])-(Profile_y[k] * (iterator->Lax + iterator->deltaLax * i*0.25)))*sin(alpha);
 
-				iterator->SPy[I(i,k)]=iterator->My[i] + ((iterator->radius[i])-(Profile_y[k] * (iterator->Lax + iterator->deltaLax * i*0.25)))*cos(alpha);
+				iterator->Py[Is(i,k)]=iterator->My[i] + ((iterator->radius[i])-(Profile_y[k] * (iterator->Lax + iterator->deltaLax * i*0.25)))*cos(alpha);
 				
 			}
 		}
@@ -59,38 +60,41 @@ void com(Naca* iterator){
 	/*
 	* First we calculate the area of our profile, we need it later for the center of mass calculation
 	*/
+	while(iterator!=NULL){
 
 	for(int i=0;i<=4;i++){
 		iterator->area[i]=0;
 
-			for(int k=0;k<=30;k++){
+			for(int k=0;k<=60;k++){
 				
 				iterator->area[i]+= iterator->Px[I(i,k)] * iterator->Py[I(i,k+1)] - iterator->Px[I(i,k+1)] * iterator->Py[I(i,k)];
 
 		}
-		iterator->area[i] *= (1/2);
+		iterator->area[i] = iterator->area[i] * 1/2;
 	}
 	for(int i=0;i<=4;i++){
 		iterator->comx[i]=0;
 
-			for(int k=0;k<=30;k++){
+			for(int k=0;k<=60;k++){
 				
 				iterator->comx[i]+= (iterator->Px[I(i,k)] + iterator->Px[I(i,k+1)]) * (iterator->Px[I(i,k)] * iterator->Py[I(i,k+1)] - iterator->Px[I(i,k+1)] * iterator->Py[I(i,k)]);
  
 		}
-		iterator->comx[i] *= (1/6)*(1/iterator->area[i]);
+		iterator->comx[i] = iterator->comx[i] * (1/iterator->area[i]) * 1/6;
+		printf("%lf\n",iterator->comx[i]);
 	}
 	for(int i=0;i<=4;i++){
 		iterator->comy[i]=0;
 
-			for(int k=0;k<=30;k++){
+			for(int k=0;k<=60;k++){
 				
 				iterator->comy[i]+= (iterator->Py[I(i,k)] + iterator->Py[I(i,k+1)]) * (iterator->Px[I(i,k)] * iterator->Py[I(i,k+1)] - iterator->Px[I(i,k+1)] * iterator->Py[I(i,k)]);
  
 		}
-		iterator->comy[i] *= (1/6)*(1/iterator->area[i]);
+		iterator->comy[i] = iterator->comy[i] * (1/iterator->area[i]) * 1/6;
 	}
+	iterator= iterator->next;
 
-
+}
 
 }

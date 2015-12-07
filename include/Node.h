@@ -26,10 +26,8 @@ typedef struct naca{
 	double radius[5];
 	double Mx[5];
 	double My[5];
-	double Px[31*5];
-	double Py[31*5];
-	double SPx[31*5];
-	double SPy[31*5];
+	double Px[62*5];
+	double Py[62*5];
 	double z;
 	double area[5];
 	double comx[5];
