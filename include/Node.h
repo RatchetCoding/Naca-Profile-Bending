@@ -14,7 +14,7 @@
 #define KWHT  "\x1B[37m"
 #define RESET "\033[0m"
 
-#define PRO_LEN 26
+#define PRO_LEN 31
 
 /*
 * Two way linked chain of structs. Each struct contains the data for 5 profiles, which will be extruded to a volume in CAD.

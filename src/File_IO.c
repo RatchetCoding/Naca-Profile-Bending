@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "File_IO.h"
 #include "Node.h"
-#define I(i,k) ((i)*51+(k))
-#define Is(i,k) ((i+1)*51-(k))
+#define I(i,k) ((i)*61+(k))
+#define Is(i,k) ((i+1)*61-(k))
 
 /*
 * This function saves the coordinates into ".dat" files, seperated by commas.
@@ -33,7 +33,7 @@ void save(Naca* firstNode){
 				*/
 				fprintf(file,"%lf\t%lf\t%lf\n",iterator->Px[I(i,k)],iterator->Py[I(i,k)],(iterator->z)*j + iterator->z0);			
 			}
-			for(int k=50;k>=26;k--){
+			for(int k=60;k>=36;k--){
 
 				fprintf(file,"%lf\t%lf\t%lf\n",iterator->Px[I(i,k)],iterator->Py[I(i,k)],(iterator->z)*j + iterator->z0);
 			}
