@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "File_IO.h"
 #include "Node.h"
-#define I(i,k) ((i)*61+(k))
-#define Is(i,k) ((i+1)*61-(k))
+#define I(i,k) ((i)*51+(k))
+#define Is(i,k) ((i+1)*51-(k))
 
 /*
 * This function saves the coordinates into ".dat" files, seperated by commas.
@@ -15,25 +15,27 @@ void save(Naca* firstNode){
 	*We get the first Node as input and run through the chain from there 
 	*/
 	iterator = firstNode;
-	j=0;
+	
 	l=0;
+
 	
 	while(iterator != NULL){
 
-		
+		j=0;
+
 		for(int i=0;i<=4;i++){
 
 		snprintf(buff,sizeof(buff),"./Profiles/Profile%d.%d_%s.dat",l,i,iterator->type);
 		FILE* file = fopen(buff,"w");
-			for(int k=25;k>=1;k--){
+			for(int k=25;k>=0;k--){
 				/*
 				* We print the coordinatepoints to the file. At first the one above the x-axis, then the one below
 				*/
-				fprintf(file,"%lf\t%lf\t%lf\n",iterator->Px[I(i,k)],iterator->Py[I(i,k)],(iterator->z)*j);			
+				fprintf(file,"%lf\t%lf\t%lf\n",iterator->Px[I(i,k)],iterator->Py[I(i,k)],(iterator->z)*j + iterator->z0);			
 			}
-			for(int k=61;k>=36;k--){
+			for(int k=50;k>=26;k--){
 
-				fprintf(file,"%lf\t%lf\t%lf\n",iterator->Px[I(i,k)],iterator->Py[I(i,k)],(iterator->z)*j);
+				fprintf(file,"%lf\t%lf\t%lf\n",iterator->Px[I(i,k)],iterator->Py[I(i,k)],(iterator->z)*j + iterator->z0);
 			}
 
 			/*
@@ -51,16 +53,16 @@ void save(Naca* firstNode){
 	}
 
 	iterator = firstNode;
-	j=0;
 	l=0;
 	
 	while(iterator != NULL){
 
+		j=0;
 		snprintf(buff,sizeof(buff),"./Profiles/COM%d_%s.dat",l,iterator->type);
 		FILE* file = fopen(buff,"w");
 		for(int i=0;i<=4;i++){
 		
-			fprintf(file,"%lf\t%lf\t%lf\n",iterator->comx[i],iterator->comy[i],(iterator->z)*j);	
+			fprintf(file,"%lf\t%lf\t%lf\n",iterator->comx[i],iterator->comy[i],(iterator->z)*j + iterator->z0	);	
 
 			j+=0.25;
 			
@@ -102,7 +104,7 @@ Naca* load(){
 		/*
 		* The reading of the file is dirty, hard to read and no error checks, this is the part I would like to learn how to do properly.
 		*/
-		fscanf(file,"%lf;%lf;%lf;%lf;%lf;%lf;%lf;%lf;%lf;%lf;%lf;%lf;%lf;%s",&(iterator->Lax),&(iterator->deltaLax),&(iterator->z),&(iterator->B12[0]),&(iterator->B12[1]),&(iterator->B12[2]),&(iterator->B12[3]),&(iterator->B12[4]),&(iterator->B2[0]),&(iterator->B2[1]),&(iterator->B2[2]),&(iterator->B2[3]),&(iterator->B2[4]),iterator->type);
+		fscanf(file,"%lf;%lf;%lf;%lf;%lf;%lf;%lf;%lf;%lf;%lf;%lf;%lf;%lf;%lf;%s",&(iterator->Lax),&(iterator->deltaLax),&(iterator->z0),&(iterator->z),&(iterator->B12[0]),&(iterator->B12[1]),&(iterator->B12[2]),&(iterator->B12[3]),&(iterator->B12[4]),&(iterator->B2[0]),&(iterator->B2[1]),&(iterator->B2[2]),&(iterator->B2[3]),&(iterator->B2[4]),iterator->type);
 		
 	}
 	fclose(file);

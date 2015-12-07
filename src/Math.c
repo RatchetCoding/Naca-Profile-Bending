@@ -1,7 +1,7 @@
 #include "Math.h"
 #include <math.h>
-#define I(i,k) ((i)*61+(k))
-#define Is(i,k) ((i+1)*61-(k))
+#define I(i,k) ((i)*51+(k))
+#define Is(i,k) ((i+1)*51-(k))
 
 /*
 * I guess this is where the magic happens. It's just real simple geometry. We calculate a skeleton line in "solve()" and bend the profile accordingly in "calculate_Profile".
@@ -34,7 +34,7 @@ void calculate_Profile(Naca* iterator, double* Profile_x,double* Profile_y){
 	float alpha;
 	while(iterator!= NULL){
 	for(int i=0;i<=4;i++){
-			for(int k=0;k<=30;k++){
+			for(int k=0;k<=25;k++){
 
 				/* 
 				* Again for the curious: Kinda hard to explain, will maybe add someday.
@@ -65,7 +65,7 @@ void com(Naca* iterator){
 	for(int i=0;i<=4;i++){
 		iterator->area[i]=0;
 
-			for(int k=0;k<=60;k++){
+			for(int k=0;k<=24;k++){
 				
 				iterator->area[i]+= iterator->Px[I(i,k)] * iterator->Py[I(i,k+1)] - iterator->Px[I(i,k+1)] * iterator->Py[I(i,k)];
 
@@ -75,18 +75,18 @@ void com(Naca* iterator){
 	for(int i=0;i<=4;i++){
 		iterator->comx[i]=0;
 
-			for(int k=0;k<=60;k++){
+			for(int k=0;k<=24;k++){
 				
 				iterator->comx[i]+= (iterator->Px[I(i,k)] + iterator->Px[I(i,k+1)]) * (iterator->Px[I(i,k)] * iterator->Py[I(i,k+1)] - iterator->Px[I(i,k+1)] * iterator->Py[I(i,k)]);
  
 		}
 		iterator->comx[i] = iterator->comx[i] * (1/iterator->area[i]) * 1/6;
-		printf("%lf\n",iterator->comx[i]);
+		
 	}
 	for(int i=0;i<=4;i++){
 		iterator->comy[i]=0;
 
-			for(int k=0;k<=60;k++){
+			for(int k=0;k<=24;k++){
 				
 				iterator->comy[i]+= (iterator->Py[I(i,k)] + iterator->Py[I(i,k+1)]) * (iterator->Px[I(i,k)] * iterator->Py[I(i,k+1)] - iterator->Px[I(i,k+1)] * iterator->Py[I(i,k)]);
  

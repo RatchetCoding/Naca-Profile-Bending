@@ -14,6 +14,8 @@
 #define KWHT  "\x1B[37m"
 #define RESET "\033[0m"
 
+#define PRO_LEN 26
+
 /*
 * Two way linked chain of structs. Each struct contains the data for 5 profiles, which will be extruded to a volume in CAD.
 */
@@ -26,9 +28,10 @@ typedef struct naca{
 	double radius[5];
 	double Mx[5];
 	double My[5];
-	double Px[62*5];
-	double Py[62*5];
+	double Px[PRO_LEN *10];
+	double Py[PRO_LEN *10];
 	double z;
+	double z0;
 	double area[5];
 	double comx[5];
 	double comy[5];
