@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "File_IO.h"
 #include "Node.h"
-#define I(i,k) ((i)*61+(k))
-#define Is(i,k) ((i+1)*61-(k))
+#define I(i,k) ((i)*51+(k))
+#define Is(i,k) ((i+1)*51-(k))
 
 /*
 * This function saves the coordinates into ".dat" files, seperated by commas.
@@ -25,7 +25,7 @@ void save(Naca* firstNode){
 
 		for(int i=0;i<=4;i++){
 
-		snprintf(buff,sizeof(buff),"./Profiles/Profile%d.%d_%s.dat",l,i,iterator->type);
+		snprintf(buff,sizeof(buff),"./Lukas_Way/Profile%d.%d_%s.dat",l,i,iterator->type);
 		FILE* file = fopen(buff,"w");
 			for(int k=25;k>=0;k--){
 				/*
@@ -33,7 +33,7 @@ void save(Naca* firstNode){
 				*/
 				fprintf(file,"%lf\t%lf\t%lf\n",iterator->Px[I(i,k)],iterator->Py[I(i,k)],(iterator->z)*j + iterator->z0);			
 			}
-			for(int k=60;k>=36;k--){
+			for(int k=50;k>=26;k--){
 
 				fprintf(file,"%lf\t%lf\t%lf\n",iterator->Px[I(i,k)],iterator->Py[I(i,k)],(iterator->z)*j + iterator->z0);
 			}
@@ -58,7 +58,7 @@ void save(Naca* firstNode){
 	while(iterator != NULL){
 
 		j=0;
-		snprintf(buff,sizeof(buff),"./Profiles/COM%d_%s.dat",l,iterator->type);
+		snprintf(buff,sizeof(buff),"./Lukas_Way/COM%d_%s.dat",l,iterator->type);
 		FILE* file = fopen(buff,"w");
 		for(int i=0;i<=4;i++){
 		
