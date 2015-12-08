@@ -65,7 +65,7 @@ void com(Naca* iterator){
 	for(int i=0;i<=4;i++){
 		iterator->area[i]=0;
 
-			for(int k=0;k<=30;k++){
+			for(int k=0;k<=60;k++){
 				
 				iterator->area[i]+= iterator->Px[I(i,k)] * iterator->Py[I(i,k+1)] - iterator->Px[I(i,k+1)] * iterator->Py[I(i,k)];
 
@@ -75,7 +75,7 @@ void com(Naca* iterator){
 	for(int i=0;i<=4;i++){
 		iterator->comx[i]=0;
 
-			for(int k=0;k<=30;k++){
+			for(int k=0;k<=60;k++){
 				
 				iterator->comx[i]+= (iterator->Px[I(i,k)] + iterator->Px[I(i,k+1)]) * (iterator->Px[I(i,k)] * iterator->Py[I(i,k+1)] - iterator->Px[I(i,k+1)] * iterator->Py[I(i,k)]);
  
@@ -86,7 +86,7 @@ void com(Naca* iterator){
 	for(int i=0;i<=4;i++){
 		iterator->comy[i]=0;
 
-			for(int k=0;k<=30;k++){
+			for(int k=0;k<=60;k++){
 				
 				iterator->comy[i]+= (iterator->Py[I(i,k)] + iterator->Py[I(i,k+1)]) * (iterator->Px[I(i,k)] * iterator->Py[I(i,k+1)] - iterator->Px[I(i,k+1)] * iterator->Py[I(i,k)]);
  
